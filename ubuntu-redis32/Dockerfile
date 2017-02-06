@@ -11,10 +11,6 @@ ENV REDIS_CONF=/etc/redis/redis.conf
 ENV REDIS_DATA_DIR=/var/lib/redis
 ENV REDIS_LOG_DIR=/var/log/redis
 
-# Redis 3.2 pre-requisite
-COPY rc.local /etc/rc.local
-RUN chmod +x /etc/rc.local
-
 # Install redis 3.2
 RUN set -x
 RUN apt-get update
