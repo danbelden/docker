@@ -14,9 +14,19 @@ RUN apt-get upgrade -y
 RUN apt-get install -y nginx
 RUN apt-get install -y php-fpm
 
-# Start the corresponding service daemons
-RUN service nginx start
-RUN service php7.0-fpm start
+# NGINX tweaks
+RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Expose the container port 80 
+# PHP-FPM Tweaks
+RUN perl -pi -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/7.0/fpm/php.ini
+RUN perl -pi -e 's/allow_url_fopen = Off/allow_url_fopen = On/g' /etc/php/7.0/fpm/php.ini
+RUN perl -pi -e 's/expose_php = On/expose_php = Off/g' /etc/php/7.0/fpm/php.ini
+
+# Expose the container port 80 & 443
 EXPOSE 80
+EXPOSE 443
+
+# Run the services
+CMD service php7.0-fpm start && nginx
