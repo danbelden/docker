@@ -51,17 +51,13 @@ RUN gpg --export "46095ACC8548582C1A2699A9D27D666CD88E42B4" > /etc/apt/trusted.g
 RUN apt-key list
 
 # Add the relevant kibana source url for apt-get
-# https://www.elastic.co/guide/en/kibana/5.0/deb.html
-RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
+# https://www.elastic.co/guide/en/kibana/5.1/deb.html
+RUN wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.2-amd64.deb
+RUN sha1sum kibana-5.1.2-amd64.deb
+RUN dpkg -i kibana-5.1.2-amd64.deb
 
-# Create the kibana user
-RUN groupadd -r kibana
-RUN useradd -r -m -g kibana kibana
-
-# Install kibana
+# Set ownership to the kibana user
 RUN set -x
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends kibana=$KIBANA_VERSION
 RUN chown -R kibana:kibana /etc/kibana
 RUN rm -rf /var/lib/apt/lists/*
 
