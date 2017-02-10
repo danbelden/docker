@@ -87,6 +87,9 @@ RUN { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --stri
 RUN make clean
 RUN docker-php-source delete
 
+# Add the PHP ini file
+COPY php.ini /usr/local/etc/php
+
 # Remove now redundant build dependencies
 RUN apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false libcurl4-openssl-dev libedit-dev libsqlite3-dev libssl-dev libxml2-dev
 
