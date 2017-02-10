@@ -1,13 +1,20 @@
-# Part sourced from a GitHub page
-# https://github.com/docker-library/logstash/blob/e667720b9e8c5c6c369843a7368742e55ae22e0a/5/Dockerfile
+# Part sourced from a GitHub pages
+# https://github.com/docker-library/logstash/blob/3e0af5d894e622dadf08ec849386ed64da23bb4b/5/Dockerfile
+# https://github.com/docker-library/logstash/blob/3e0af5d894e622dadf08ec849386ed64da23bb4b/5/alpine/Dockerfile
+# https://www.elastic.co/downloads/past-releases/logstash-5-1-2
 FROM ubuntu:xenial
 MAINTAINER Dan Belden <me@danbelden.com>
 
 # Set env specific configs
 ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV LOGSTASH_PATH /usr/share/logstash/bin
+ENV LOGSTASH_HOME /usr/share/logstash
+ENV PATH $LOGSTASH_PATH:$PATH
 ENV LOGSTASH_VERSION 5.1.2
-ENV LOGSTASH_DEB_VERSION 1:5.1.2-1
+ENV LOGSTASH_TARBALL="https://artifacts.elastic.co/downloads/logstash/logstash-5.1.2.tar.gz"
+ENV LOGSTASH_TARBALL_ASC="https://artifacts.elastic.co/downloads/logstash/logstash-5.1.2.tar.gz.asc"
+ENV LOGSTASH_TARBALL_SHA1="dead2e06f74ab09f012ac34dfb18aafeaa7b08f0"
 
 # Update core dependencies
 RUN apt-get update
@@ -16,12 +23,16 @@ RUN apt-get install -y --no-install-recommends apt-utils
 # Update dependencies ready
 RUN apt-get upgrade -y
 
+# Install Java 8
+RUN apt-get install -y openjdk-8-jdk
+RUN apt-get install -y openjdk-8-jre
+RUN java -version
+
 # Install gosu to enable "Easy root stepdown"
 ENV GOSU_VERSION 1.7
 RUN set -x
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends ca-certificates wget
-RUN rm -rf /var/lib/apt/lists/*
 RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)"
 RUN wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc"
 RUN export GNUPGHOME="$(mktemp -d)"
@@ -30,36 +41,33 @@ RUN gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
 RUN rm -r /usr/local/bin/gosu.asc
 RUN chmod +x /usr/local/bin/gosu
 RUN gosu nobody true
-RUN apt-get purge -y --auto-remove ca-certificates wget
 
-# Install Java 8
-RUN apt-get update
-RUN apt-get install -y openjdk-8-jdk
-RUN apt-get install -y openjdk-8-jre
-RUN rm -rf /var/lib/apt/lists/*
+# Check logstash sha keys are configured
+RUN set -ex;
+RUN if [ -z "$LOGSTASH_TARBALL_SHA1" ] && [ -z "$LOGSTASH_TARBALL_ASC" ]; then echo >&2 'error: have neither a SHA1 _or_ a signature file -- cannot verify download!'; exit 1; fi;
 
-# Logstash GPG key juggling
-# https://artifacts.elastic.co/GPG-KEY-elasticsearch
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "46095ACC8548582C1A2699A9D27D666CD88E42B4";
-RUN gpg --export "46095ACC8548582C1A2699A9D27D666CD88E42B4" > /etc/apt/trusted.gpg.d/elastic.gpg;
-RUN apt-key list
+# Download the configured logstash version
+WORKDIR /tmp
+RUN wget -O logstash.tar.gz "$LOGSTASH_TARBALL";
 
-# Logstash 5.1.2 requirements
-# https://www.elastic.co/guide/en/logstash/5.0/installing-logstash.html#_apt
-RUN apt-get update
-RUN apt-get install -y apt-transport-https --no-install-recommends
-RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/logstash.list
-RUN rm -rf /var/lib/apt/lists/*
+# Check the tarball is valid using file hashes
+RUN if [ "$LOGSTASH_TARBALL_SHA1" ]; then echo "$LOGSTASH_TARBALL_SHA1 *logstash.tar.gz" | sha1sum -c -; fi;
+RUN if [ "$LOGSTASH_TARBALL_ASC" ]; then \
+    wget -O logstash.tar.gz.asc "$LOGSTASH_TARBALL_ASC"; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY"; \
+    gpg --batch --verify logstash.tar.gz.asc logstash.tar.gz; \
+    rm -r "$GNUPGHOME" logstash.tar.gz.asc; \
+fi;
 
-# Install logstash 5.1.1
-RUN set -x
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends "logstash=$LOGSTASH_DEB_VERSION"
-RUN rm -rf /var/lib/apt/lists/*
+# Extract the tarball to the given logstash directory
+RUN mkdir -p $LOGSTASH_HOME
+RUN tar -xf logstash.tar.gz --strip-components=1 -C "$LOGSTASH_HOME";
+RUN rm logstash.tar.gz;
 
-# Add logstash env vars
-ENV PATH /usr/share/logstash/bin:$PATH
-ENV LS_SETTINGS_DIR /etc/logstash
+# Create the logstash user
+RUN groupadd -g 1000 logstash
+RUN useradd logstash -u 1000 -g 1000
 
 # Patch config file rules
 RUN set -ex;
@@ -69,9 +77,31 @@ RUN if [ -f "$LS_SETTINGS_DIR/log4j2.properties" ]; then \
     truncate --size=0 "$LS_SETTINGS_DIR/log4j2.properties"; \
 fi
 
+# Install logstash (Add missing folders)
+RUN mkdir -p /usr/share/logstash/logs
+
+# Install logstash (Fix folder permissions)
+RUN export LS_SETTINGS_DIR="$LOGSTASH_HOME/config";
+RUN for userDir in "$LOGSTASH_HOME/config" "$LOGSTASH_HOME/data"; do \
+    if [ -d "$userDir" ]; then \
+        chown -R logstash:logstash "$userDir"; \
+    fi; \
+done;
+RUN chown -R logstash:logstash /usr/share/logstash/logs
+
+# Check logstash works by dumping the version
+RUN logstash --version
+
+# Remove packages no-longer required
+RUN apt-get purge -y --auto-remove wget
+RUN rm -rf /var/lib/apt/lists/*
+
 # Add the entrypoint script
 COPY entrypoint.sh /
-RUN chmod +x entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Expose the API port
+EXPOSE 9600
 
 # Run the logstash instance
 ENTRYPOINT ["/entrypoint.sh"]
