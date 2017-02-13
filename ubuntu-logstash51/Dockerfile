@@ -71,7 +71,9 @@ RUN useradd logstash -u 1000 -g 1000
 
 # Patch config file rules
 RUN set -ex;
+ENV LS_SETTINGS_DIR "$LOGSTASH_HOME/config"
 RUN if [ -f "$LS_SETTINGS_DIR/logstash.yml" ]; then sed -ri 's!^path\.config:!#&!g' "$LS_SETTINGS_DIR/logstash.yml"; fi;
+RUN if [ -f "$LS_SETTINGS_DIR/logstash.yml" ]; then sed -ri '/http.host:/c\http.host: 0.0.0.0' "$LS_SETTINGS_DIR/logstash.yml"; fi;
 RUN if [ -f "$LS_SETTINGS_DIR/log4j2.properties" ]; then \
     cp "$LS_SETTINGS_DIR/log4j2.properties" "$LS_SETTINGS_DIR/log4j2.properties.dist"; \
     truncate --size=0 "$LS_SETTINGS_DIR/log4j2.properties"; \
@@ -81,7 +83,6 @@ fi
 RUN mkdir -p /usr/share/logstash/logs
 
 # Install logstash (Fix folder permissions)
-RUN export LS_SETTINGS_DIR="$LOGSTASH_HOME/config";
 RUN for userDir in "$LOGSTASH_HOME/config" "$LOGSTASH_HOME/data"; do \
     if [ -d "$userDir" ]; then \
         chown -R logstash:logstash "$userDir"; \

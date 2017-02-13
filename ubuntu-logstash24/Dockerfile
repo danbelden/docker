@@ -60,6 +60,7 @@ ENV LS_SETTINGS_DIR /etc/logstash
 # Patch config file rules
 RUN set -ex;
 RUN if [ -f "$LS_SETTINGS_DIR/logstash.yml" ]; then sed -ri 's!^path\.config:!#&!g' "$LS_SETTINGS_DIR/logstash.yml"; fi;
+RUN if [ -f "$LS_SETTINGS_DIR/logstash.yml" ]; then sed -ri '/http.host:/c\http.host: 0.0.0.0' "$LS_SETTINGS_DIR/logstash.yml"; fi;
 RUN if [ -f "$LS_SETTINGS_DIR/log4j2.properties" ]; then \
     cp "$LS_SETTINGS_DIR/log4j2.properties" "$LS_SETTINGS_DIR/log4j2.properties.dist"; \
     truncate --size=0 "$LS_SETTINGS_DIR/log4j2.properties"; \
