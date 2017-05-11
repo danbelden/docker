@@ -29,5 +29,8 @@ RUN perl -pi -e 's/;clear_env = no/clear_env = no/g' /etc/php/7.0/fpm/pool.d/www
 EXPOSE 80
 EXPOSE 443
 
+# Add entrypoint to the container
+COPY entrypoint.sh /var/entrypoint.sh
+
 # Run the services
-CMD service php7.0-fpm start && nginx
+ENTRYPOINT [ "/var/entrypoint.sh" ]
