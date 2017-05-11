@@ -29,7 +29,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)"
 RUN wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc"
 RUN export GNUPGHOME="$(mktemp -d)"
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+RUN gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
 RUN gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
 RUN rm -r /usr/local/bin/gosu.asc
 RUN chmod +x /usr/local/bin/gosu
@@ -72,7 +72,7 @@ VOLUME /var/lib/mysql
 # Copy and configure the entrypoint script
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN ln -s usr/local/bin/entrypoint.sh /entrypoint.sh # backwards compat
+RUN ln -s /usr/local/bin/entrypoint.sh /entrypoint.sh # backwards compat
 ENTRYPOINT ["entrypoint.sh"]
 
 # Expost the corresponding port and launch MySQL
