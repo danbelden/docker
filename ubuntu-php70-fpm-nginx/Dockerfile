@@ -12,7 +12,7 @@ RUN apt-get upgrade -y
 
 # Install NGINX and PHP7-FPM
 RUN apt-get install -y nginx
-RUN apt-get install -y php-fpm
+RUN apt-get install -y php-fpm php-curl php-mysql
 
 # NGINX tweaks
 RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
