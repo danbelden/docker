@@ -115,7 +115,7 @@ if [ "$1" = 'mysqld' -a -z "$wantHelp" ]; then
 		rootCreate=
 		# default root to listen for connections from anywhere
 		file_env 'MYSQL_ROOT_HOST' '%'
-echo "ROOT HOST: $MYSQL_ROOT_HOST"
+
 		if [ ! -z "$MYSQL_ROOT_HOST" -a "$MYSQL_ROOT_HOST" != 'localhost' ]; then
 			# no, we don't care if read finds a terminating character in this heredoc
 			# https://unix.stackexchange.com/questions/265149/why-is-set-o-errexit-breaking-this-read-heredoc-expression/265151#265151

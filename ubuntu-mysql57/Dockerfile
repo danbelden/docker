@@ -40,22 +40,25 @@ RUN apt-get purge -y --auto-remove ca-certificates wget
 RUN groupadd -r mysql
 RUN useradd -r -g mysql mysql
 
-# Install MySQL dependencies
+# Sync apt-get ready for installation
 RUN apt-get update
+
+# Install MySQL dependencies
 RUN apt-get install -y --no-install-recommends pwgen
 RUN apt-get install -y --no-install-recommends openssl
 RUN apt-get install -y --no-install-recommends perl
+RUN apt-get install -y --no-install-recommends tzdata
 RUN mkdir -p /var/lib/mysql
 RUN mkdir -p /var/run/mysqld
 RUN chown -R mysql:mysql /var/lib/mysql
 RUN chown -R mysql:mysql /var/run/mysqld
 RUN chmod 777 /var/run/mysqld
-RUN rm -rf /var/lib/apt/lists/*
 
 # Run update and install mysql-server
-RUN apt-get update
 RUN apt-get install -y mysql-server
 RUN rm -rf ${MYSQL_DATA_DIR}
+
+# Clean-up following installation
 RUN rm -rf /var/lib/apt/lists/*
 
 # Comment out a few problematic configuration values
