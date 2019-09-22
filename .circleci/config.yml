@@ -4,7 +4,7 @@ aliases:
   - &docker_builder
     docker:
       - image: circleci/buildpack-deps:stretch
-    workspace: /tmp/workspace
+    working_directory: /tmp/workspace
 
 jobs:
   setup:
