@@ -17,9 +17,9 @@ jobs:
   build-elasticsearch:
     <<: *docker_builder
     steps:
+      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
-      - setup_remote_docker
       - run:
           name: ubuntu-elasticsearch17
           command: |
