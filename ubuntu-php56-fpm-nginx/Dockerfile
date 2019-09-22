@@ -1,14 +1,16 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 MAINTAINER Dan Belden <me@danbelden.com>
 
 # Set env specific configs
 ENV DEBIAN_FRONTEND noninteractive
-RUN locale-gen en_GB.UTF-8
-ENV LANG       en_GB.UTF-8
-ENV LC_ALL     en_GB.UTF-8
+ENV LANG            en_GB.UTF-8
+ENV LC_ALL          en_GB.UTF-8
 
 # Update core dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils locales
+
+# Switch to locale UTF8
+RUN locale-gen en_GB.UTF-8
 
 # Enable PHP 5.6 repo and update apt-get
 RUN apt-get install -y build-essential

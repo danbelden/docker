@@ -13,6 +13,12 @@ if [[ ! -d "$BUILD_PATH" ]]; then
   exit 1
 fi
 
+# Check the tag name is set on arg2 [Default: "test"]
+TAG_NAME="$2"
+if [[ -z "$TAG_NAME" ]]; then
+  TAG_NAME="test"
+fi
+
 # [Hack] Realpath function hack for OSX
 # https://stackoverflow.com/questions/3572030/bash-script-absolute-path-with-os-x
 realpath() {
@@ -22,7 +28,7 @@ realpath() {
 # Create the remaining vars for docker build
 BUILD_PATH_FULL="$(realpath $BUILD_PATH)"
 BUILD_PATH_LAST_DIR="$(echo $BUILD_PATH_FULL | rev | cut -d'/' -f1 | rev)"
-IMAGE_TAG="danbelden/${BUILD_PATH_LAST_DIR}:ci-build"
+IMAGE_TAG="danbelden/${BUILD_PATH_LAST_DIR}:${TAG_NAME}"
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Output the vars for debugging
