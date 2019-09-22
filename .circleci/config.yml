@@ -13,7 +13,7 @@ jobs:
       - checkout
       - persist_to_workspace:
           root: .
-          paths: *
+          paths: '*'
   build-elasticsearch:
     <<: *docker_builder
     steps:
