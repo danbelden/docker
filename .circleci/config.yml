@@ -204,6 +204,26 @@ jobs:
           name: Build "danbelden/ubuntu-php70-cli"
           command: |
             make build-ubuntu-php70-cli
+  build-ubuntu-php70-fpm-nginx:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-php70-fpm-nginx"
+          command: |
+            make build-ubuntu-php70-fpm-nginx
+  build-ubuntu-php72-cli:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-php72-cli"
+          command: |
+            make build-ubuntu-php72-cli
   build-ubuntu-php72-fpm-nginx:
     <<: *docker_builder
     steps:
@@ -214,7 +234,7 @@ jobs:
           name: Build "danbelden/ubuntu-php72-fpm-nginx"
           command: |
             make build-ubuntu-php72-fpm-nginx
-  build-ubuntu-redis:
+  build-ubuntu-redis30:
     <<: *docker_builder
     steps:
       - setup_remote_docker
@@ -224,10 +244,22 @@ jobs:
           name: Build "danbelden/ubuntu-redis30"
           command: |
             make build-ubuntu-redis30
+  build-ubuntu-redis32:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Build "danbelden/ubuntu-redis32"
           command: |
             make build-ubuntu-redis32
+  build-ubuntu-redis40:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
       - run:
           name: Build "danbelden/ubuntu-redis40"
           command: |
