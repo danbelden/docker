@@ -1,28 +1,24 @@
-version: 2.1
-
-executors:
-  docker-publisher:
-    workspace: /tmp/workspace
-    docker:
-      - image: circleci/buildpack-deps:stretch
+version: 2
 
 aliases:
-  - &attach_workspace
-    attach_workspace:
-      at: /tmp/workspace
+  - &docker_builder
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    workspace: /tmp/workspace
 
 jobs:
   setup:
-    executor: docker-publisher
+    <<: *docker_builder
     steps:
       - checkout
       - persist_to_workspace:
           root: .
           paths: /tmp/workspace
   build-elasticsearch:
-    executor: docker-publisher
+    <<: *docker_builder
     steps:
-      <<: *attach_workspace
+      - attach_workspace:
+          at: /tmp/workspace
       - setup_remote_docker
       - run:
           name: ubuntu-elasticsearch17
