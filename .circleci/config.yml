@@ -14,26 +14,168 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: '*'
-  build-elasticsearch:
+  build-ubuntu-elasticsearch:
     <<: *docker_builder
     steps:
       - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run:
-          name: ubuntu-elasticsearch17
+          name: Build "danbelden/ubuntu-elasticsearch17"
           command: |
             ./tools/ci-build.sh ubuntu-elasticsearch17
       - run:
-          name: ubuntu-elasticsearch24
+          name: Build "danbelden/ubuntu-elasticsearch24"
           command: |
             ./tools/ci-build.sh ubuntu-elasticsearch24
+      - run:
+          name: Build "danbelden/ubuntu-elasticsearch51"
+          command: |
+            ./tools/ci-build.sh ubuntu-elasticsearch51
+      - run:
+          name: Build "danbelden/ubuntu-elasticsearch61"
+          command: |
+            ./tools/ci-build.sh ubuntu-elasticsearch61
+      - run:
+          name: Build "danbelden/ubuntu-elasticsearch73"
+          command: |
+            ./tools/ci-build.sh ubuntu-elasticsearch73
+  build-ubuntu-kibana:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-kibana46"
+          command: |
+            ./tools/ci-build.sh ubuntu-kibana46
+      - run:
+          name: Build "danbelden/ubuntu-kibana51"
+          command: |
+            ./tools/ci-build.sh ubuntu-kibana51
+      - run:
+          name: Build "danbelden/ubuntu-kibana61"
+          command: |
+            ./tools/ci-build.sh ubuntu-kibana61
+  build-ubuntu-logstash:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-logstash15"
+          command: |
+            ./tools/ci-build.sh ubuntu-logstash15
+      - run:
+          name: Build "danbelden/ubuntu-logstash24"
+          command: |
+            ./tools/ci-build.sh ubuntu-logstash24
+      - run:
+          name: Build "danbelden/ubuntu-logstash51"
+          command: |
+            ./tools/ci-build.sh ubuntu-logstash51
+      - run:
+          name: Build "danbelden/ubuntu-logstash61"
+          command: |
+            ./tools/ci-build.sh ubuntu-logstash61
+  build-ubuntu-mysql:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-mysql56"
+          command: |
+            ./tools/ci-build.sh ubuntu-mysql56
+      - run:
+          name: Build "danbelden/ubuntu-mysql57"
+          command: |
+            ./tools/ci-build.sh ubuntu-mysql57
+  build-ubuntu-php:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-php55-cli"
+          command: |
+            ./tools/ci-build.sh ubuntu-php55-cli
+      - run:
+          name: Build "danbelden/ubuntu-php55-fpm-nginx"
+          command: |
+            ./tools/ci-build.sh ubuntu-php55-fpm-nginx
+      - run:
+          name: Build "danbelden/ubuntu-php56-cli"
+          command: |
+            ./tools/ci-build.sh ubuntu-php56-cli
+      - run:
+          name: Build "danbelden/ubuntu-php56-fpm-nginx"
+          command: |
+            ./tools/ci-build.sh ubuntu-php56-fpm-nginx
+      - run:
+          name: Build "danbelden/ubuntu-php70-cli"
+          command: |
+            ./tools/ci-build.sh ubuntu-php70-cli
+      - run:
+          name: Build "danbelden/ubuntu-php72-fpm-nginx"
+          command: |
+            ./tools/ci-build.sh ubuntu-php72-fpm-nginx
+  build-ubuntu-rabbitmq:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-rabbitmq36"
+          command: |
+            ./tools/ci-build.sh ubuntu-rabbitmq36
+  build-ubuntu-redis:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/ubuntu-redis30"
+          command: |
+            ./tools/ci-build.sh ubuntu-redis30
+      - run:
+          name: Build "danbelden/ubuntu-redis32"
+          command: |
+            ./tools/ci-build.sh ubuntu-redis32
+      - run:
+          name: Build "danbelden/ubuntu-redis40"
+          command: |
+            ./tools/ci-build.sh ubuntu-redis40
 
 workflows:
   version: 2
   build:
     jobs:
       - setup
-      - build-elasticsearch:
+      - build-ubuntu-elasticsearch:
+          requires:
+            - setup
+      - build-ubuntu-kibana:
+          requires:
+            - setup
+      - build-ubuntu-logstash:
+          requires:
+            - setup
+      - build-ubuntu-mysql:
+          requires:
+            - setup
+      - build-ubuntu-php:
+          requires:
+            - setup
+      - build-ubuntu-rabbitmq:
+          requires:
+            - setup
+      - build-ubuntu-redis:
           requires:
             - setup
