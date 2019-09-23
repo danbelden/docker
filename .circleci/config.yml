@@ -5,6 +5,14 @@ aliases:
     docker:
       - image: circleci/buildpack-deps:stretch
     working_directory: /tmp/workspace
+  - &filter_not_master
+    filters:
+      branches:
+        ignore: master
+  - &filter_master_only
+    filters:
+      branches:
+        only: master
 
 jobs:
   setup:
@@ -24,6 +32,17 @@ jobs:
           name: Build "danbelden/ubuntu-elasticsearch17"
           command: |
             make build-ubuntu-elasticsearch17
+  build-and-push-ubuntu-elasticsearch17:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-elasticsearch17"
+          command: |
+            make build-ubuntu-elasticsearch17
+            make push-ubuntu-elasticsearch17
   build-ubuntu-elasticsearch24:
     <<: *docker_builder
     steps:
@@ -34,6 +53,17 @@ jobs:
           name: Build "danbelden/ubuntu-elasticsearch24"
           command: |
             make build-ubuntu-elasticsearch24
+  build-and-push-ubuntu-elasticsearch24:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-elasticsearch24"
+          command: |
+            make build-ubuntu-elasticsearch24
+            make push-ubuntu-elasticsearch24
   build-ubuntu-elasticsearch51:
     <<: *docker_builder
     steps:
@@ -44,6 +74,17 @@ jobs:
           name: Build "danbelden/ubuntu-elasticsearch51"
           command: |
             make build-ubuntu-elasticsearch51
+  build-and-push-ubuntu-elasticsearch51:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-elasticsearch51"
+          command: |
+            make build-ubuntu-elasticsearch51
+            make push-ubuntu-elasticsearch51
   build-ubuntu-elasticsearch61:
     <<: *docker_builder
     steps:
@@ -54,6 +95,17 @@ jobs:
           name: Build "danbelden/ubuntu-elasticsearch61"
           command: |
             make build-ubuntu-elasticsearch61
+  build-and-push-ubuntu-elasticsearch61:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-elasticsearch61"
+          command: |
+            make build-ubuntu-elasticsearch61
+            make push-ubuntu-elasticsearch61
   build-ubuntu-elasticsearch73:
     <<: *docker_builder
     steps:
@@ -64,6 +116,17 @@ jobs:
           name: Build "danbelden/ubuntu-elasticsearch73"
           command: |
             make build-ubuntu-elasticsearch73
+  build-and-push-ubuntu-elasticsearch73:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-elasticsearch73"
+          command: |
+            make build-ubuntu-elasticsearch73
+            make push-ubuntu-elasticsearch73
   build-ubuntu-kibana46:
     <<: *docker_builder
     steps:
@@ -74,6 +137,17 @@ jobs:
           name: Build "danbelden/ubuntu-kibana46"
           command: |
             make build-ubuntu-kibana46
+  build-and-push-ubuntu-kibana46:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-kibana46"
+          command: |
+            make build-ubuntu-kibana46
+            make push-ubuntu-kibana46
   build-ubuntu-kibana51:
     <<: *docker_builder
     steps:
@@ -84,6 +158,17 @@ jobs:
           name: Build "danbelden/ubuntu-kibana51"
           command: |
             make build-ubuntu-kibana51
+  build-and-push-ubuntu-kibana51:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-kibana51"
+          command: |
+            make build-ubuntu-kibana51
+            make push-ubuntu-kibana51
   build-ubuntu-kibana61:
     <<: *docker_builder
     steps:
@@ -94,6 +179,17 @@ jobs:
           name: Build "danbelden/ubuntu-kibana61"
           command: |
             make build-ubuntu-kibana61
+  build-and-push-ubuntu-kibana61:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-kibana61"
+          command: |
+            make build-ubuntu-kibana61
+            make push-ubuntu-kibana61
   build-ubuntu-logstash15:
     <<: *docker_builder
     steps:
@@ -104,6 +200,17 @@ jobs:
           name: Build "danbelden/ubuntu-logstash15"
           command: |
             make build-ubuntu-logstash15
+  build-and-push-ubuntu-logstash15:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-logstash15"
+          command: |
+            make build-ubuntu-logstash15
+            make push-ubuntu-logstash15
   build-ubuntu-logstash24:
     <<: *docker_builder
     steps:
@@ -114,6 +221,17 @@ jobs:
           name: Build "danbelden/ubuntu-logstash24"
           command: |
             make build-ubuntu-logstash24
+  build-and-push-ubuntu-logstash24:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-logstash24"
+          command: |
+            make build-ubuntu-logstash24
+            make push-ubuntu-logstash24
   build-ubuntu-logstash51:
     <<: *docker_builder
     steps:
@@ -124,6 +242,17 @@ jobs:
           name: Build "danbelden/ubuntu-logstash51"
           command: |
             make build-ubuntu-logstash51
+  build-and-push-ubuntu-logstash51:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-logstash51"
+          command: |
+            make build-ubuntu-logstash51
+            make push-ubuntu-logstash51
   build-ubuntu-logstash61:
     <<: *docker_builder
     steps:
@@ -134,6 +263,17 @@ jobs:
           name: Build "danbelden/ubuntu-logstash61"
           command: |
             make build-ubuntu-logstash61
+  build-and-push-ubuntu-logstash61:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-logstash61"
+          command: |
+            make build-ubuntu-logstash61
+            make push-ubuntu-logstash61
   build-ubuntu-mysql56:
     <<: *docker_builder
     steps:
@@ -144,6 +284,17 @@ jobs:
           name: Build "danbelden/ubuntu-mysql56"
           command: |
             make build-ubuntu-mysql56
+  build-and-push-ubuntu-mysql56:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-mysql56"
+          command: |
+            make build-ubuntu-mysql56
+            make push-ubuntu-mysql56
   build-ubuntu-mysql57:
     <<: *docker_builder
     steps:
@@ -154,6 +305,17 @@ jobs:
           name: Build "danbelden/ubuntu-mysql57"
           command: |
             make build-ubuntu-mysql57
+  build-and-push-ubuntu-mysql57:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-mysql57"
+          command: |
+            make build-ubuntu-mysql57
+            make push-ubuntu-mysql57
   build-ubuntu-php55-cli:
     <<: *docker_builder
     steps:
@@ -164,6 +326,17 @@ jobs:
           name: Build "danbelden/ubuntu-php55-cli"
           command: |
             make build-ubuntu-php55-cli
+  build-and-push-ubuntu-php55-cli:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php55-cli"
+          command: |
+            make build-ubuntu-php55-cli
+            make push-ubuntu-php55-cli
   build-ubuntu-php55-fpm-nginx:
     <<: *docker_builder
     steps:
@@ -174,6 +347,17 @@ jobs:
           name: Build "danbelden/ubuntu-php55-fpm-nginx"
           command: |
             make build-ubuntu-php55-fpm-nginx
+  build-and-push-ubuntu-php55-fpm-nginx:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php55-fpm-nginx"
+          command: |
+            make build-ubuntu-php55-fpm-nginx
+            make push-ubuntu-php55-fpm-nginx
   build-ubuntu-php56-cli:
     <<: *docker_builder
     steps:
@@ -184,6 +368,17 @@ jobs:
           name: Build "danbelden/ubuntu-php56-cli"
           command: |
             make build-ubuntu-php56-cli
+  build-and-push-ubuntu-php56-cli:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php56-cli"
+          command: |
+            make build-ubuntu-php56-cli
+            make push-ubuntu-php56-cli
   build-ubuntu-php56-fpm-nginx:
     <<: *docker_builder
     steps:
@@ -194,6 +389,17 @@ jobs:
           name: Build "danbelden/ubuntu-php56-fpm-nginx"
           command: |
             make build-ubuntu-php56-fpm-nginx
+  build-and-push-ubuntu-php56-fpm-nginx:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php56-fpm-nginx"
+          command: |
+            make build-ubuntu-php56-fpm-nginx
+            make push-ubuntu-php56-fpm-nginx
   build-ubuntu-php70-cli:
     <<: *docker_builder
     steps:
@@ -204,6 +410,17 @@ jobs:
           name: Build "danbelden/ubuntu-php70-cli"
           command: |
             make build-ubuntu-php70-cli
+  build-and-push-ubuntu-php70-cli:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php70-cli"
+          command: |
+            make build-ubuntu-php70-cli
+            make push-ubuntu-php70-cli
   build-ubuntu-php70-fpm-nginx:
     <<: *docker_builder
     steps:
@@ -214,6 +431,17 @@ jobs:
           name: Build "danbelden/ubuntu-php70-fpm-nginx"
           command: |
             make build-ubuntu-php70-fpm-nginx
+  build-and-push-ubuntu-php70-fpm-nginx:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php70-fpm-nginx"
+          command: |
+            make build-ubuntu-php70-fpm-nginx
+            make push-ubuntu-php70-fpm-nginx
   build-ubuntu-php72-cli:
     <<: *docker_builder
     steps:
@@ -224,6 +452,17 @@ jobs:
           name: Build "danbelden/ubuntu-php72-cli"
           command: |
             make build-ubuntu-php72-cli
+  build-and-push-ubuntu-php72-cli:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php72-cli"
+          command: |
+            make build-ubuntu-php72-cli
+            make push-ubuntu-php72-cli
   build-ubuntu-php72-fpm-nginx:
     <<: *docker_builder
     steps:
@@ -234,6 +473,17 @@ jobs:
           name: Build "danbelden/ubuntu-php72-fpm-nginx"
           command: |
             make build-ubuntu-php72-fpm-nginx
+  build-and-push-ubuntu-php72-fpm-nginx:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-php72-fpm-nginx"
+          command: |
+            make build-ubuntu-php72-fpm-nginx
+            make push-ubuntu-php72-fpm-nginx
   build-ubuntu-redis30:
     <<: *docker_builder
     steps:
@@ -244,6 +494,17 @@ jobs:
           name: Build "danbelden/ubuntu-redis30"
           command: |
             make build-ubuntu-redis30
+  build-and-push-ubuntu-redis30:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-redis30"
+          command: |
+            make build-ubuntu-redis30
+            make push-ubuntu-redis30
   build-ubuntu-redis32:
     <<: *docker_builder
     steps:
@@ -254,6 +515,17 @@ jobs:
           name: Build "danbelden/ubuntu-redis32"
           command: |
             make build-ubuntu-redis32
+  build-and-push-ubuntu-redis32:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-redis32"
+          command: |
+            make build-ubuntu-redis32
+            make push-ubuntu-redis32
   build-ubuntu-redis40:
     <<: *docker_builder
     steps:
@@ -264,84 +536,225 @@ jobs:
           name: Build "danbelden/ubuntu-redis40"
           command: |
             make build-ubuntu-redis40
+  build-and-push-ubuntu-redis40:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build & Push "danbelden/ubuntu-redis40"
+          command: |
+            make build-ubuntu-redis40
+            make push-ubuntu-redis40
 
 workflows:
   version: 2
   build:
     jobs:
-      - setup
+      - setup:
+          <<: *filter_not_master
       - build-ubuntu-elasticsearch17:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-elasticsearch24:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-elasticsearch51:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-elasticsearch61:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-elasticsearch73:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-kibana46:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-kibana51:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-kibana61:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-logstash15:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-logstash24:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-logstash51:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-logstash61:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-mysql56:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-mysql57:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php55-cli:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php55-fpm-nginx:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php56-cli:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php56-fpm-nginx:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php70-cli:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php70-fpm-nginx:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php72-cli:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-php72-fpm-nginx:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-redis30:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-redis32:
+          <<: *filter_not_master
           requires:
             - setup
       - build-ubuntu-redis40:
+          <<: *filter_not_master
+          requires:
+            - setup
+  build-master:
+    jobs:
+      - setup:
+          <<: *filter_master_only
+      - build-and-push-ubuntu-elasticsearch17:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-elasticsearch24:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-elasticsearch51:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-elasticsearch61:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-elasticsearch73:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-kibana46:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-kibana51:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-kibana61:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-logstash15:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-logstash24:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-logstash51:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-logstash61:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-mysql56:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-mysql57:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php55-cli:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php55-fpm-nginx:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php56-cli:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php56-fpm-nginx:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php70-cli:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php70-fpm-nginx:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php72-cli:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-php72-fpm-nginx:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-redis30:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-redis32:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-ubuntu-redis40:
+          <<: *filter_master_only
           requires:
             - setup

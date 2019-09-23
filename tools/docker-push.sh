@@ -35,12 +35,12 @@ if [[ $? != 0 ]]; then
 fi
 
 # Output some info for debugging
-echo "----------- Debug ---------------"
+echo "----------- DEBUG ---------------"
 echo "IMAGE_NAME: $IMAGE_NAME"
 echo "IMAGE_ID: $IMAGE_ID"
 
 # Login to docker hub
-echo "------- DockerHub Login ---------"
+echo "------- DOCKER HUB LOGIN ---------"
 echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 if [[ $? != 0 ]]; then
   echo "[ERROR] Failed to login to DockerHub!"
@@ -48,5 +48,5 @@ if [[ $? != 0 ]]; then
 fi
 
 # Process the docker hub tag
-echo "------- DockerHub Push ----------"
+echo "------- DOCKER HUB PUSH ----------"
 docker push "$IMAGE_NAME"
