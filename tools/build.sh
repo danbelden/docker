@@ -7,7 +7,7 @@ if [[ -z $1 ]]; then
 fi
 
 # Check the path exists
-BUILD_PATH="$1"
+BUILD_PATH="docker/$1"
 if [[ ! -d "$BUILD_PATH" ]]; then
   echo "[ERROR] \"$BUILD_PATH\" is not a valid build path!"
   exit 1
