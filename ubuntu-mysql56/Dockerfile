@@ -34,7 +34,7 @@ RUN gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu
 RUN rm -r /usr/local/bin/gosu.asc
 RUN chmod +x /usr/local/bin/gosu
 RUN gosu nobody true
-RUN apt-get purge -y --auto-remove ca-certificates wget
+RUN apt-get purge -y --auto-remove wget
 
 # Add mysql user to run the service
 RUN groupadd -r mysql
@@ -42,7 +42,6 @@ RUN useradd -r -g mysql mysql
 
 # Install MySQL dependencies
 RUN apt-get update
-RUN apt-get install -y --no-install-recommends pwgen
 RUN apt-get install -y --no-install-recommends openssl
 RUN apt-get install -y --no-install-recommends perl
 RUN mkdir -p /var/lib/mysql
