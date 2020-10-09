@@ -7,7 +7,7 @@ ENV DOWNLOAD_URL https://artifacts.elastic.co/downloads/logstash
 ENV TARBALL "${DOWNLOAD_URL}/logstash-oss-${VERSION}.tar.gz"
 
 # Install logstash
-RUN apk add --no-cache openjdk8-jre su-exec libc6-compat libzmq bash && \
+RUN apk add --no-cache openjdk11-jre su-exec libc6-compat libzmq bash && \
   apk upgrade --update --no-cache && \
   apk add --no-cache --virtual ".build-deps" wget ca-certificates gnupg openssl && \
   set -ex && \
