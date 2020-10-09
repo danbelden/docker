@@ -43,6 +43,48 @@ jobs:
           command: |
             make build-alpine-go114-goimports
             make push-alpine-go114-goimports
+  build-alpine-logstash79:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/alpine-logstash79"
+          command: |
+            make build-alpine-logstash79
+  build-and-push-alpine-logstash79:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/alpine-logstash79"
+          command: |
+            make build-alpine-logstash79
+            make push-alpine-logstash79
+  build-alpine-logstash79-pubsub:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/alpine-logstash79-pubsub"
+          command: |
+            make build-alpine-logstash79-pubsub
+  build-and-push-alpine-logstash79-pubsub:
+    <<: *docker_builder
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Build "danbelden/alpine-logstash79-pubsub"
+          command: |
+            make build-alpine-logstash79-pubsub
+            make push-alpine-logstash79-pubsub
   build-ubuntu-elasticsearch17:
     <<: *docker_builder
     steps:
@@ -579,6 +621,14 @@ workflows:
           <<: *filter_not_master
           requires:
             - setup
+      - build-alpine-logstash79:
+          <<: *filter_not_master
+          requires:
+            - setup
+      - build-alpine-logstash79-pubsub:
+          <<: *filter_not_master
+          requires:
+            - setup
       - build-ubuntu-elasticsearch17:
           <<: *filter_not_master
           requires:
@@ -684,6 +734,14 @@ workflows:
       - setup:
           <<: *filter_master_only
       - build-and-push-alpine-go114-goimports:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-alpine-logstash79:
+          <<: *filter_master_only
+          requires:
+            - setup
+      - build-and-push-alpine-logstash79-pubsub:
           <<: *filter_master_only
           requires:
             - setup

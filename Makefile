@@ -1,10 +1,16 @@
 # Help
 help: ## Show this help
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-35s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 # Build alpine-go114
 build-alpine-go114-goimports: ## Build alpine-go114-goimports
 	@./tools/build.sh alpine-go114-goimports
+
+# Build alpine-logstash
+build-alpine-logstash79: ## Build alpine-logstash79
+	@./tools/build.sh alpine-logstash79
+build-alpine-logstash79-pubsub: ## Build alpine-logstash79-pubsub
+	@./tools/build.sh alpine-logstash79-pubsub
 
 # Build ubuntu-elasticsearch
 build-ubuntu-elasticsearch17: ## Build ubuntu-elasticsearch17
@@ -73,6 +79,12 @@ build-ubuntu-redis40: ## Build ubuntu-redis40
 # Push alpine-go114
 push-alpine-go114-goimports: ## Push alpine-go114-goimports
 	@./tools/push.sh alpine-go114-goimports
+
+# Push alpine-logstash
+push-alpine-logstash79: ## Push alpine-logstash79
+	@./tools/push.sh alpine-logstash79
+push-alpine-logstash79-pubsub: ## Push alpine-logstash79-pubsub
+	@./tools/push.sh alpine-logstash79-pubsub
 
 # Push ubuntu-elasticsearch
 push-ubuntu-elasticsearch17: ## Push ubuntu-elasticsearch17
